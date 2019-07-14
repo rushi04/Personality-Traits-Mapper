@@ -13,15 +13,16 @@
 <div class="container">
   <h2>IBM HACK: xyz</h2>
   <p>The form below contains a textarea for Analysing Personality Traits:</p>
-  
-  <form method = 'POST' action = '#'>
-        {%csrf_token%}   
+         
     <div class="form-group">
       <label for="comment">Text:</label>
       <textarea class="form-control" rows="5" id="comment"></textarea>
       <button type="button" onclick="analyse()" class="btn btn-primary">Analyse</button>
+      <p id = 'result'></p>
+      <p id = 'profile'></p>
     </div>
-  </form>
+
+
 </div>
 
 </body> 
@@ -33,14 +34,53 @@
         console.log(text);
         var data = {'text':text};
     $.ajax({
-                url:"http://127.0.0.1:8000/graph",
-                type:"POST",
-                data:data,
-                contentType:'application/x-www-form-urlencoded',
+                url:"http://127.0.0.1:8000/graph/"+text,
+                type:"GET",
+                // data:data,
+                // contentType:'application/x-www-form-urlencoded',
                 dataType:"json",
-                success: function( data ){
+                success: function( data1 ){
                     console.log('rushi');
-                    console.log(data);
+                    console.log(data1);
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Challenge', 'Closeness', 'Curiosity', 'Excitement', 'Harmony', 'Ideal','Liberty','Love','Practicality','Self-expression','Stability','Structure'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3,12, 19, 3, 5, 2, 3],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                    // document.getElementById('result').innerHTML(JSON.stringify(data.result));
+                    // document.getElementById('profile').innerHTML(JSON.stringify(data.profile));
             }
         });
     }

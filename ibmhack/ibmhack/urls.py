@@ -19,6 +19,6 @@ from Traits.views import rush, analyse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('graph',rush ,name = 'ibm'),
+    path('graph/<str:text>',rush ,name = 'ibm'),
     path('analyse',analyse, name = 'analyse'),
 ]
