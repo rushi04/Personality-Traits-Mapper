@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src ="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
       <p id = 'result'></p>
       <p id = 'profile'></p>
     </div>
-
+    <canvas id="myChart" width="400" height="400"></canvas>
 
 </div>
 
@@ -42,6 +43,13 @@
                 success: function( data1 ){
                     console.log('rushi');
                     console.log(data1);
+                    var r = [];
+                    for( i in data1.result)
+                    {
+                        r.push(data1.result[i]);
+                    }
+                    console.log(r)
+
                     var ctx = document.getElementById('myChart').getContext('2d');
                     var myChart = new Chart(ctx, {
                         type: 'bar',
@@ -49,7 +57,7 @@
                             labels: ['Challenge', 'Closeness', 'Curiosity', 'Excitement', 'Harmony', 'Ideal','Liberty','Love','Practicality','Self-expression','Stability','Structure'],
                             datasets: [{
                                 label: '# of Votes',
-                                data: [12, 19, 3, 5, 2, 3,12, 19, 3, 5, 2, 3],
+                                data: r,
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
